@@ -1,5 +1,5 @@
 from typing import Dict, Any
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 from app.infrastructure.db.models import UserORM, PullRequestORM
 from app.domain.models import (
     User as PydanticUser,
@@ -33,8 +33,9 @@ class UserService:
         if not user_orm:
             raise ValueError(ErrorCode.NOT_FOUND)
 
-        prs_orm = self.db.query(PullRequestORM).filter(
-            PullRequestORM.reviewers.any(UserORM.user_id == user_id)
+        prs_orm = self.db.query(PullRequestORM).options(
+        selectinload(PullRequestORM.reviewers)
+        ).filter(PullRequestORM.reviewers.any(UserORM.user_id == user_id)
         ).all()
 
         pull_requests_pyd = [pr_orm_to_pydantic_short(pr_orm) for pr_orm in prs_orm]
