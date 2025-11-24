@@ -1,4 +1,3 @@
-# app/api/v1/endpoints/stats.py
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.services.stats.stats_service import StatsService
