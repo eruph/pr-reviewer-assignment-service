@@ -1,4 +1,3 @@
-# app/api/v1/endpoints/teams.py
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from app.services.teams.teams_service import TeamService
